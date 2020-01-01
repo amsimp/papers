@@ -4,10 +4,8 @@
 
 ### Project Book
 
-<embed src="https://github.com/amsimp/papers/raw/master/project-book/main.pdf" 
- type="application/pdf">
+[Project Book](https://github.com/amsimp/papers/raw/master/project-book/main.pdf)
 
 ### Poster
 
-<embed src="https://github.com/amsimp/papers/raw/master/poster/main.pdf" 
- type="application/pdf">
+[Poster](https://github.com/amsimp/papers/raw/master/poster/main.pdf)
