@@ -268,7 +268,7 @@ For the purposes of this project, only equations \ref{og_primtemp} and \ref{og_p
 
 This, therefore, makes equations \ref{prim_u} and \ref{prim_v} redundant. Assuming that equation \ref{bal_eq} is true also greatly simplifies the remainder of the equations, as the $\Vec{v}$ component is now constant. The reason for not utilising equation \ref{prim_h} is not as simple. Instead of using this particular equation to calculate the pressure thickness, the mass continuity equation will be utilised in order to forecast the atmospheric density. After which, the Ideal Gas Law (section \ref{ideal}) will be invoked in order to determine the atmospheric pressure; with the pressure thickness between 1000 hPa and 500 hPa being determined in a similar manner to that described in section \ref{pressure_thickness}.  
 
-\subsection{Temperature and Precipitable Water}
+\subsection{Temperature and Precipitable Water}\label{temp_pwv_section}
 To begin, the temperature equation will be the primary focus and was written in equation \ref{og_primtemp} as follows:
 
 \begin{equation}
@@ -356,7 +356,7 @@ which yields:
 
 The equation functions in a similar manner to the temperature equation. The equation describes the movement of water as it travels from one point to another without taking into account that water changes form. Inside the atmosphere, the total change in water is zero. However, concentrations are allowed to move with wind flow\cite{primitive_equations}.
 
-\subsection{Pressure Thickness}
+\subsection{Pressure Thickness}\label{mass_continuity}
 \begin{definition}
 Mass Continuity Equation is a hydro-dynamical equation that expresses the principle of the conservation of mass in a fluid. It equates the increase in mass in a hypothetical fluid volume to the net flow of mass into the volume.
 \end{definition}
@@ -418,14 +418,14 @@ Similar analysis can be done for the fluxes across the other four faces to yield
 which can be rewritten in vector form as the following\cite{rho_primitive}:
 
 \begin{equation}
-    \frac{\partial \rho}{\partial t} = -\Vec{v} \cdot \nabla \rho
+    \frac{\partial \rho}{\partial t} = -\Vec{v} \cdot \nabla \rho - \rho (\nabla \cdot \Vec{v})
 \end{equation}
 
 Using the same method that was used to discretize the temperature and precipitable primitive equations, the mass continuity equation becomes:
 
 \begin{equation}
-    \rho^{n + 1}_{x, y, z} = \rho^{n - 1}_{x, y, z} - u \frac{\Delta t}{\Delta x} (\Delta \rho_{x})
-    - v \frac{\Delta t}{\Delta y} (\Delta \rho_{y})
+    \rho^{n + 1}_{x, y, z} = \rho^{n - 1}_{x, y, z} - u \frac{\Delta t}{\Delta x} (\Delta \rho_{x}) - \rho \frac{\Delta t}{\Delta x} (\Delta u)
+    - v \frac{\Delta t}{\Delta y} (\Delta \rho_{y}) - \rho \frac{\Delta t}{\Delta y} (\Delta v)
 \end{equation}
 
 This equation, therefore, allows for the prediction of atmospheric density. Using the Ideal Gas Law, as described in section \ref{ideal}, the atmospheric pressure can be determined. Following which, the pressure thickness between the constant pressure surfaces of 1000 hPa and 500 hPa can be determined in a similar manner to that described in section \ref{pressure_thickness}.

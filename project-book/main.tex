@@ -1,4 +1,4 @@
-\documentclass[12pt]{style} 
+\documentclass[hidelinks, 12pt]{style} 
 
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr} 
@@ -114,7 +114,7 @@ All aspects of the hypothesis's statement have been verified, hence, the hypothe
 \nomenclature[B, 01]{$a$}{Earth mean radius
   \nomunit{$6378100 m$}}
 \nomenclature[B, 02]{$c_p$}{Specific Heat Capacity on a Constant Pressure Surface
-  \nomunit{$287, J \cdot kg^{-1} \cdot K^{-1}$}}
+  \nomunit{$1004, J \cdot kg^{-1} \cdot K^{-1}$}}
 \nomenclature[B, 03]{$e$}{Saturated Vapour Pressure
   \nomunit{$hPa$}}
 \nomenclature[B, 04]{$F$}{Coriolis Force
@@ -178,6 +178,8 @@ All aspects of the hypothesis's statement have been verified, hence, the hypothe
 \renewcommand{\thesection}{\Alph{section}.\arabic{section}}
 \setcounter{section}{0}
 \input{Chapters/Appendices.tex}
+
+\pagenumbering{Roman}
 
 \printbibliography[heading = bibintoc]
 
