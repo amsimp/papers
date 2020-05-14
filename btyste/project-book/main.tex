@@ -1,0 +1,186 @@
+\documentclass[hidelinks, 12pt]{style} 
+
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\graphicspath{{Images/}} 
+\usepackage[backend=biber,style=phys]{biblatex}
+\newtheorem{definition}{Definition}
+\usepackage{tocbibind}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage[toc,title,page]{appendix}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{blindtext}
+\usepackage{url}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usepackage[intoc]{nomencl}
+\usepackage[makeroom]{cancel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{chemfig}
+\usetikzlibrary{quotes,arrows.meta}
+\makenomenclature
+\addbibresource{references.bib}
+
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{A}{Greek Letters}{}
+  \ifstrequal{#1}{B}{Roman Letters}{}
+]}
+
+% This will add the units
+%----------------------------------------------
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+%----------------------------------------------
+
+\title{AMSIMP: An Open Source Implementation to Simulating Tropospheric and Stratospheric Dynamics on a Synoptic Scale} 
+
+\author{Conor Casey} 
+\college{Teacher: Ms. Abbott} 
+
+\degree{Chemical, Physical, and Mathematical Sciences} 
+\degreedate{Stand 2300 - BTYSTE 2020} 
+
+\begin{document}
+
+\maketitle
+
+\clearpage\mbox{}\clearpage
+
+\pagenumbering{roman}
+
+\chapter*{
+\centering
+    ``All stable processes we shall predict. All unstable processes we shall control.”
+\\[5pt]
+\rightline{{\rm --- Jean-Baptiste Lamarack}}
+}
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+This report hypothesises that it is possible to create an open-source implementation to simulating tropospheric and stratospheric dynamics on a synoptic scale, that such software is consistent and reliable, and that the software consists of high-quality source code. Firstly, this report explains, and derives a series of relevant equations for simulating atmospheric dynamics on a synoptic scale.
+
+Following this process, the software was developed and released onto the open-source platform, GitHub. To prove the hypothesis, it was determined that a series of appropriate benchmarks would be carried out in the areas of performance, accuracy, and code quality. The performance benchmark would demonstrate whether or not the software has consistent and reliable performance, the accuracy benchmark would highlight whether or not the forecasts produced by the software has a reasonable level of accuracy, and the code quality benchmark would indicate whether or not the source code of the software was of high quality.
+
+In regards to the performance benchmark, the time it took to generate a four-day forecast was measured. This benchmark was carried out on three completely different machines, with a sample size of ten measurements on each machine. The statistical analysis of the results found that the mean coefficient of variation ($\frac{\sigma}{\bar{x}}$) was approximately, 0.04. This signified that there was a low variation in execution time, proving that the performance of the software was consistent and reliable.
+
+In regards to the accuracy benchmark, it showed that a four-day forecast produced software had a mean absolute percentage error of approximately 1.56 \%, and a median absolute percentage error was approximately 0.81 \%. This shows that the forecast produced by the software is accurate, which further proves that its consistency and reliability. 
+
+In regards to the code accuracy benchmark, two distinct benchmarks were carried out. The first benchmark indicated that the software consists of high quality source code, as it received a numerical rating of 7.32 from Pylint which corresponds to an interpretation of `Great Code!'. The second benchmark indicated that the software had a code coverage of approximately 98 \%. This signifies that the software has a lower chance of containing undetected bugs, ultimately demonstrating that the quality of the source code is high. Both of these benchmarks clearly highlight that the software consists of high quality source code. 
+
+All aspects of the hypothesis's statement have been verified, hence, the hypothesis as originally stated can be accepted.
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\input{Chapters/Acknowledgements}
+
+\tableofcontents
+
+\listoffigures
+
+% Nomenclatures
+\mbox{}
+
+\nomenclature[A, 01]{$\eta$}{Absolute Vorticity  
+  \nomunit{$rad \cdot s^{-1}$}}
+\nomenclature[A, 02]{$\theta$}{Potential Temperature
+  \nomunit{$K$}}
+\nomenclature[A, 03]{$\lambda$}{Longitude 
+  \nomunit{$^{\circ}$}}
+\nomenclature[A, 04]{$\Pi$}{Exner Function
+  \nomunit{$\frac{K}{K}$}}
+\nomenclature[A, 05]{$\sigma$}{Sigma Vertical Coordinate
+  \nomunit{$\frac{hPa}{hPa}$}}
+\nomenclature[A, 6]{$\Phi$}{Geopotential Height 
+  \nomunit{$m$}}
+\nomenclature[A, 07]{$\phi$}{Latitude 
+  \nomunit{$^{\circ}$}}
+\nomenclature[A, 08]{$\rho$}{Density 
+  \nomunit{$kg \cdot m^{-3}$}}
+\nomenclature[A, 09]{$\omega$}{Vertical Velocity 
+  \nomunit{$Pa \cdot s^{-1}$}}
+\nomenclature[A, 10]{$\Omega$}{Angular Rotation Rate of Earth
+  \nomunit{$7.29246206 \cdot 10^{-5}\, rad \cdot s^{-1}$}}
+
+\nomenclature[B, 01]{$a$}{Earth mean radius
+  \nomunit{$6378100 m$}}
+\nomenclature[B, 02]{$c_p$}{Specific Heat Capacity on a Constant Pressure Surface
+  \nomunit{$1004, J \cdot kg^{-1} \cdot K^{-1}$}}
+\nomenclature[B, 03]{$e$}{Saturated Vapour Pressure
+  \nomunit{$hPa$}}
+\nomenclature[B, 04]{$F$}{Coriolis Force
+  \nomunit{$rad \cdot s^{-1}$}}
+\nomenclature[B, 04]{$f$}{Coriolis Parameter
+  \nomunit{$rad \cdot s^{-1}$}}
+\nomenclature[B, 05]{$g$}{Gravitation Acceleration
+  \nomunit{$m \cdot s^{-2}$}}
+\nomenclature[B, 06]{$m$}{Mixing Ratio
+  \nomunit{$\frac{kg}{kg}$}}
+\nomenclature[B, 07]{$h$}{Pressure Thickness
+  \nomunit{$m$}}
+\nomenclature[B, 08]{$p$}{Pressure
+  \nomunit{$hPa$}}
+\nomenclature[B, 09]{$R$}{Specific Gas Constant for Dry Air
+  \nomunit{$287, J \cdot kg^{-1} \cdot K^{-1}$}}
+\nomenclature[B, 10]{$T$}{Temperature
+  \nomunit{$K$}}
+\nomenclature[B, 11]{$t$}{Time
+  \nomunit{$s$}}
+\nomenclature[B, 12]{$u$}{Zonal Wind
+  \nomunit{$m \cdot s^{-1}$}}
+\nomenclature[B, 13]{$v$}{Meridional Wind
+  \nomunit{$m \cdot s^{-1}$}}
+\nomenclature[B, 14]{$W$}{Precipitable Water
+  \nomunit{$mm$}}
+\nomenclature[B, 15]{$x, y$}{Horizontal Distances
+  \nomunit{$m$}}
+\nomenclature[B, 16]{$z$}{Vertical Distance
+  \nomunit{$m$}}
+ 
+\printnomenclature
+
+\chapter{Introduction} 
+\pagenumbering{arabic} 
+\input{Chapters/Introduction}
+
+\chapter{Atmospheric Science}\label{2}
+\input{Chapters/Atmospheric_Science.tex}
+
+\chapter{Simulating Dynamics}\label{3}
+\input{Chapters/Simulating_Dynamics.tex}
+
+\chapter{Implementation Details}\label{4}
+\input{Chapters/Implementation_Details.tex}
+
+\chapter{Benchmarking}\label{5}
+\input{Chapters/Benchmarking.tex}
+
+\chapter{Results}\label{6}
+\input{Chapters/Results.tex}
+
+\chapter{Conclusions}\label{7}
+\input{Chapters/Conclusions.tex}
+
+\newpage
+
+\pagenumbering{Roman}
+
+\appendix
+\renewcommand{\thesection}{\Alph{section}.\arabic{section}}
+\setcounter{section}{0}
+\input{Chapters/Appendices.tex}
+
+\pagenumbering{Roman}
+
+\printbibliography[heading = bibintoc]
+
+\end{document}
