@@ -1,5 +1,8 @@
 # Papers
 
+## SciFest Regional 2020 (Online)
+[![Project Book](https://github.com/amsimp/papers/raw/master/scifest.png)](https://github.com/amsimp/papers/raw/master/scifest-online/project-book/main.pdf)
+
 ## BT Young Scientist and Technology Exhibition 2020
 
 ### Project Book
