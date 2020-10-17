@@ -1,0 +1,115 @@
+\documentclass[hidelinks, 12pt]{style} 
+
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\graphicspath{{Images/}} 
+\usepackage[backend=biber,style=phys]{biblatex}
+\newtheorem{definition}{Definition}
+\usepackage{tocbibind}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage[toc,title,page]{appendix}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{blindtext}
+\usepackage{url}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usepackage[intoc]{nomencl}
+\usepackage[makeroom]{cancel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{chemfig}
+\usetikzlibrary{quotes,arrows.meta}
+\usetikzlibrary{decorations.markings}
+\makenomenclature
+\addbibresource{references.bib}
+
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{A}{Greek Letters}{}
+  \ifstrequal{#1}{B}{Roman Letters}{}
+]}
+
+% This will add the units
+%----------------------------------------------
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+%----------------------------------------------
+
+\title{AMSIMP: Using Machine Learning to Improve Numerical Weather Prediction} 
+
+\author{Conor Casey} 
+\college{Teacher: Ms. Abbott} 
+
+\degree{Physical Sciences} 
+\degreedate{SciFest National 2020} 
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\maketitle
+
+\chapter*{
+\centering
+    ``Perhaps some day in the dim future it will be possible to advance the computations faster than the weather advances and at a cost less than the saving to mankind due to the information gained. But that is a dream.”
+\\[5pt]
+\rightline{{\rm --- Lewis Fry Richardson}}
+}
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+This report hypothesises that it's possible to train a RNN on data from the past 15 years, that such a network captures weather patterns, and that such a model will improve numerical weather prediction.
+
+This project has been enhanced since it was submitted into SciFest@College. To understand the performance increase, a comparison between the performance of the current and previous model was done. Air temperature is the only parameter examined for this comparison. Concerning the two metrics, RMSE and MAE, there has been a dramatic performance improvement. There has been a mean decrease of 50.6\% in the aforementioned metrics. The performance has not plateaued, which is promising.
+
+It was expected that the development of a ML model would decrease the computational resources required. Once the model has trained, a performance increase of $3.59\times$ was observed in comparison against a physical model of a similar resolution. It should be noted that the benchmark of the software was run on a consumer-grade laptop; while the benchmark of the IFS T42 model was performed on machine with 36 cores. Hence, a further increase can be expected.
+
+The results are promising, the architecture's spatial awareness is lacking, as evident by the current ACC values. It outperforms persistence and climatology forecasts and performs better than a physical model after five forecast days; more work, potentially incorporating a CNN will improve the performance. The current model is 4x faster than a physical model of an equivalent resolution.
+
+Hence, the proposed hypothesis has partially been proven.
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\input{Chapters/Acknowledgements}
+
+\tableofcontents
+
+\listoffigures
+
+\chapter{Introduction}
+\pagenumbering{arabic} 
+\input{Chapters/Introduction}
+
+\chapter{NN Architecture}\label{architecture_chapter}
+\input{Chapters/Neural_Network_Architecture}
+
+\chapter{Implementation Details}\label{implementation_chapter}
+\input{Chapters/Implementation_Details.tex}
+
+\chapter{Benchmarking}\label{benchmarking_chapter}
+\input{Chapters/Benchmarking.tex}
+
+\chapter{Results}\label{results_chapter}
+\input{Chapters/Results.tex}
+
+\chapter{Conclusions}\label{conclusion_chapter}
+\input{Chapters/Conclusions.tex}
+
+\newpage
+
+\appendix
+\renewcommand{\thesection}{\Alph{section}.\arabic{section}}
+\setcounter{section}{0}
+\input{Chapters/Appendices.tex}
+
+\printbibliography[heading = bibintoc]
+
+\end{document}

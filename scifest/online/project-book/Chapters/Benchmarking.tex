@@ -1,0 +1,127 @@
+\epigraph{``It's known in theory that log(log(n)) approaches infinity, but no one has ever observed it in practice."}{Grant Sanderson}
+
+To prove the hypothesis that `it is possible to create open source software implementation to simulating atmospheric dynamics, with a recurrent neural network and ensemble prediction system being used in combination with a physical model, that such a software implementation has a reasonable execution time to forecast length ratio, and to determine if such an implementation has a statistically significant accuracy improvement over a traditional deterministic physical model', it is necessary to carry out a series of appropriate benchmarks.
+
+It was determined that it was necessary to carry out a series of appropriate benchmarking within the areas of performance, and accuracy. The performance benchmark would demonstrate whether or not the software has a reasonable execution time to forecast length ratio, and the accuracy benchmark would highlight whether or not the forecasts produced by the software had a reasonable level of accuracy. Considering there is no open source software to which one can compare the software, it was determined that the software would be compared against a proprietary implementation. For this purpose, OpenWeatherAPI was selected as the most appropriate option as it provides accurate data for slightly longer time ranges than other similar application programming interfaces\cite{owa}. 
+
+Please note that all of the benchmarking code is available on the AMSIMP repository, which can be accessed using the following url: \url{https://github.com/amsimp/initial-conditions}
+
+\section{Performance Benchmark}
+One of the most important factors to consider when benchmarking a piece of software is the execution time of said software. A piece of software can be as precise and accurate as it wants, however, it isn't of much practical use if it takes the length of time until the heat death of the universe to finish executing. For example, attempting to brute force a 12 character alphanumeric password might work, however, it would take approximately two centuries based on the current capabilities of computers. Considering simulating atmospheric dynamics requires a significant amount of computational resources, it was deemed necessary to run the software on a virtual machine. Using a virtual machine also allows for easier replication and duplication of results, especially considering the wide variety of computer hardware available today. Google's Compute Engine was ultimately chosen as it provided the most flexibility, with the amount of promotional credit being significantly greater than the competition. Without the promotional credit, the benchmarking process would have been an extremely expensive affair to complete (the hardware specification below would have cost approximately one dollar an hour). It was also deemed the only feasible option available due to the restrictions imposed by the COVID-19 pandemic. 
+
+\subsection{Hardware Specifications}\label{specs}
+\begin{center}
+\begin{tabular}{|c|c|} 
+ \hline
+  & Compute Engine n1-custom-configuration \\
+ \hline
+ \textbf{vCPUs} & 8 \\
+ \hline
+ \textbf{Memory} & 128 GB \\
+ \hline
+ \textbf{Operating System} & Ubuntu 20.04 LTS \\
+ \hline
+\end{tabular}\par
+\bigskip
+Table 5.3.: Compute Engine Hardware Specifications
+\end{center}
+
+\subsection{Benchmarking Method}
+\begin{definition}
+Algorithm is a set of mathematical instructions or rules that, especially if given to a computer, will help to calculate an answer to a problem.
+\end{definition}
+
+The aspect of the performance that is being benchmarked is the length of time it takes to generate a forecast of a fixed length, and after which, determining in order to determine the ratio between the execution time and the length of the forecast. For this particular experiment, a forecast length of five days was specified. The reason for utilising such a ratio is that it provides a rough estimate of the usability time of a forecast. For example, it would be highly undesirable for the simulation to take several days if the forecast was only a day in length. A small ratio would increase the amount of time a forecast is usable for, and vice versa, for a high ratio. The following algorithm on the next page was created for this purpose.
+
+\begin{algorithm}[H]
+    \caption{Performance Algorithm}
+    \begin{algorithmic}[1]
+        \State $ start \gets $ The time at the start of the experiment (UNIX time).
+        \State $ output = scheme(\texttt{scheme-name}) \gets $ Generate a forecast using the selected scheme. 
+        \State $ end \gets $ The time at the end of the experiment (UNIX time). 
+        \State $ runtime = end - start \gets $ The difference between the start and end variables is the runtime of the selected scheme.
+        \State $ forecast\_length \gets $ The fixed length of the generated forecast.
+        \State $ratio = \frac{runtime}{forecast\_length}$
+    \end{algorithmic}
+\end{algorithm}
+
+\section{Accuracy Benchmark}
+Accuracy is probably the most important metric when considering the validity of a given forecasting scheme, therefore, extensive benchmarking was carried out in this particular area. The accuracy benchmarks can be broken down into three distinct categories: comparing against a nave forecasting model, comparing the different forecasting schemes found in the software, and comparing the accuracy of the best forecasting scheme in the software with a proprietary forecasting implementation. The fixed length of the forecast was chosen to be five days, as it was deemed to be a good comprise between short and long term forecasting.
+
+\subsection{Mean Absolute Scaled Error}
+The first and most important benchmark to consider is the comparison against a naive forecasting model. A naive forecasting model is one that assumes that the given parameter will not change during the duration of the forecast, the given parameter is constant with respect to time. This is done through the utilisation of the mean absolute scaled error. 
+
+\begin{definition}
+The mean absolute scaled error is a measure of the accuracy of forecasts. It is the mean absolute error of the forecast values, divided by the mean absolute error of the in-sample one-step naive forecast.
+\end{definition}
+
+The mean absolute scaled error has the following desirable properties:
+
+\begin{itemize}
+    \item The mean absolute scaled error penalises positive and negative forecast errors equally, and penalises errors in large forecasts and small forecasts equally. In contrast, the mean absolute percentage error and median absolute percentage error fail both of these criteria, while the "symmetric" sMAPE and sMdAPE fail the second criteria.
+    \item The mean absolute scaled error can be easily interpreted, as values greater than one indicate that in-sample one-step forecasts from the naive method perform better than the forecast values under consideration.
+\end{itemize}
+
+The following algorithm was developed with the intention to calculate the mean absolute scaled error of a given forecasting scheme, and for the comparison of said forecasting scheme with the naive forecasting model:
+
+\begin{algorithm}[H]
+    \caption{Comparison against the Naive Forecasting Model Algorithm}
+    \begin{algorithmic}[1]
+        \State $ forecast \gets $ The forecasted atmospheric conditions for the next five days. 
+        \State $ actual \gets $ The actual atmospheric conditions for the forecast period.
+        \State $ naive \gets $ The naive forecasting prediction (it is constant).
+        \Function{benchmark}{$forecast, actual, naive$}
+            \State $MAE_{forecast} = abs(actual - forecast)$
+            \State $MAE_{naive} = abs(actual - naive)$
+            \State $MASE = \frac{MAE_{forecast}}{MAE_{naive}}$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Comparison of Schemes}
+The second benchmark involves the comparison of the various forecasting schemes available within the software. The available schemes that will be benchmarked are listed as follows: the physical model, the physical with the recurrent neural network enabled, the physical model with the ensemble forecasting system enabled. In the case of the ensemble forecasting system, the mean of the ensemble forecasting system will be utilised rather than any particular ensemble member. The ensemble mean normally verifies better than the control forecast by most standard verification scores because it smooths out unpredictable detail and simply presents the more predictable elements of the forecast\cite{intro_efs}. The comparison metric will be the mean squared error.
+
+For this benchmark, what will be determined is whether the null hypothesis can be rejected or accepted. The null hypothesis $H_0$ is that there is not a significantly significant difference between two given forecasting schemes, while the alternate hypothesis $H_A$ is that there is a significantly significant difference between two given forecasting schemes. This will be determined using a two-sample independent t-test. This can be represented mathematically as the following:
+
+\begin{equation}
+    H_0 : \mu_1 = \mu_2 
+\end{equation}
+
+\begin{equation}
+    H_A : \mu_1 \neq \mu_2 
+\end{equation}
+
+\begin{definition}
+The independent t-test is an inferential statistical test that determines whether there is a statistically significant difference between the means in two groups.
+\end{definition}
+
+To do this, a significance level needs to be set that allows us to either reject or accept the alternative hypothesis. For the purposes of this project, this significance level will be 0.1. The algorithm for this benchmark is pretty similar to algorithm 2, and is as follows:
+
+\begin{algorithm}[H]
+    \caption{Comparison of Schemes Algorithm}
+    \begin{algorithmic}[1]
+        \State $ forecast_{1} \gets $ The forecasted atmospheric conditions for the next five days for a given scheme. 
+        \State $ actual_{1} \gets $ The actual atmospheric conditions for the forecast period for a given scheme.
+        \State $ forecast_{2} \gets $ The forecasted atmospheric conditions for the next five days for the comparison scheme. 
+        \State $ actual_{2} \gets $ The actual atmospheric conditions for the forecast period for the comparison scheme.
+        \State $MSE_{1} = (actual_{1} - forecast_{1})^2 \gets$ The mean squared error for the first scheme.
+        \State $MSE_{2} = (actual_{2} - forecast_{2})^2 \gets$ The mean squared error for the second scheme.
+        \State $p = ttest\_ind(MSE_{1}, MSE_{2}) \gets $ Determines the significance level.
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Comparison against OpenWeatherAPI}
+The final benchmark will involve the comparison of the software's most accurate scheme against a proprietary implementation. The proprietary implementation ultimately chosen was OpenWeatherAPI, due to the fact that, as previously mentioned, it provides accurate data for slightly longer time ranges than other similar application programming interfaces\cite{owa}. The algorithm is the exact same as algorithm, just slightly edited to incorporate data from OpenWeatherAPI.  
+
+\begin{algorithm}[H]
+    \caption{Comparison against OpenWeatherAPI Algorithm}
+    \begin{algorithmic}[1]
+        \State $ forecast_{1} \gets $ The forecasted atmospheric conditions for the next five days for the software's most accurate scheme. 
+        \State $ actual_{1} \gets $ The actual atmospheric conditions for the forecast period for for the software's most accurate scheme.
+        \State $ forecast_{2} \gets $ The forecasted atmospheric conditions for the next five days for OpenWeatherAPI. 
+        \State $ actual_{2} \gets $ The actual atmospheric conditions for the forecast period for the OpenWeatherAPI.
+        \State $MSE_{1} = (actual_{1} - forecast_{1})^2 \gets$ The mean squared error for the software's forecast.
+        \State $MSE_{2} = (actual_{2} - forecast_{2})^2 \gets$ The mean squared error for OpenWeatherAPI's forecast.
+        \State $p = ttest\_ind(MSE_{1}, MSE_{2}) \gets $ Determines the significance level.
+    \end{algorithmic}
+\end{algorithm}
