@@ -1,5 +1,8 @@
 # Papers
 
+## BT Young Scientist and Technology Exhibition 2021
+[![Project Book](https://github.com/amsimp/papers/raw/master/btyste-21.png)](https://github.com/amsimp/papers/raw/master/btyste/2021/project-book/main.pdf)
+
 ## SciFest National 2020
 
 ### Project Book
@@ -17,8 +20,8 @@
 
 ### Project Book
 
-[![Project Book](https://github.com/amsimp/papers/raw/master/btyste.png)](https://github.com/amsimp/papers/raw/master/btyste/project-book/main.pdf)
+[![Project Book](https://github.com/amsimp/papers/raw/master/btyste-20.png)](https://github.com/amsimp/papers/raw/master/btyste/2020/project-book/main.pdf)
 
 ### Poster
 
-[![Poster](https://github.com/amsimp/papers/raw/master/btyste-poster.png)](https://github.com/amsimp/papers/raw/master/btyste/poster/main.pdf)
+[![Poster](https://github.com/amsimp/papers/raw/master/btyste-poster-20.png)](https://github.com/amsimp/papers/raw/master/btyste/2020/poster/main.pdf)

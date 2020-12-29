@@ -1,0 +1,26 @@
+\epigraph{``It's known in theory that log(log(n)) approaches infinity, but no one has ever observed it in practice."}{Grant Sanderson}
+
+To prove the hypothesis that `it is possible to train a neural network on an atmospheric reanalysis dataset based on data from the past 10 years, that such a neural network captures crucial weather patterns, and can predict the future evolution of the atmosphere, and that such a machine learning model will ultimately improve numerical weather prediction in comparison to established physics-based models.', it is necessary to carry out a series of appropriate benchmarks.
+
+It was determined that it was necessary to carry out a series of appropriate benchmarking within the area of performance. These benchmarks would highlight whether or not the forecasts produced by the neural network capture crucial weather patterns, and can predict the future evolution of the atmosphere. As mentioned in section \ref{ifs_section}, the ECMWF's Integreated Forecasting System weather model will act as a comparison in order to understand the performance of the software. The time required to generate a forecast will also be measured. This should give an idea as to the potential advantages of using neural networks with respect to reducing the amount of computational resources required to generate a forecast. This will be compared against the IFS T42 model as it has a similar resolution to the neural network developed for this project. As a reminder, the IFS T42 model is a lower resolution physical model (approximately $2.8^{\circ}$).  Alongside this, the software will also be compared against a persistence forecast in which the fields at initialisation time are used as forecasts and a climatological forecast. This means that to be useful, a forecast system needs to beat the climatology and the persistence forecast.
+
+This benchmarking process was inspired by the open-source project, known as WeatherBench. WeatherBench is a benchmark dataset for data-driven medium-range weather forecasting. It provides data derived from the ERA5 archive that has been processed to facilitate the use in machine learning models. It also proposes simple and clear evaluation metrics which will enable a direct comparison between different forecasting models\cite{rasp2020weatherbench}. 
+
+Please note that all of the benchmarking code is available on the AMSIMP repository, which can be accessed using the following url: \url{https://github.com/amsimp/amsimp/tree/dev/benchmarking}
+
+\section{Evaluation}
+The benchmarking was carried out for the year of 2019. To make sure no overlap exists between the training, validation and test dataset, the first test date is 1 January 2019 00UTC plus forecast time, for a seven day forecast the first test date would be 7 January 2017 00UTC, while the last training target is 31 December 2018 23UTC. 
+
+For benchmarking purposes, the 500 hPa geopotential and the 850 hPa temperature were chosen as the primary verification fields. Geopotential at 500 hPa pressure, often abbreviated as Z500, is a commonly used variable that encodes the synoptic-scale pressure distribution. It is the standard verification variable for most medium-range numerical weather prediction models. The 850 hPa temperature field was chosen as the secondary verification field because temperature is a more impact-related variable. The 850 hPa pressure surface is usually above the planetary boundary layer and therefore not affected by diurnal variations but provides information about broader temperature trends, including cold spells and heat waves. 
+
+The root mean squared error was chosen as the primary metric because it is easy to compute and mirrors the loss used for most machine learning applications. The root mean squared error was defined as the mean latitude-weighted root mean squared error:
+
+\begin{equation}
+    RMSE = \sqrt{\frac{1}{N_{lat} N_{lon}} \sum_{j}^{N_{lat}} \sum_{k}^{N_{lon}} L(j) (f_{i, j, k} - t_{i, j, k})^2}
+\end{equation}
+
+where $f$ is the forecasted value and $t$ is the observational value from the ERA5 Atmospheric Reanalysis dataset. In addition, I also evaluated the baselines using the latitude weighted anomaly correlation coefficient and the latitude weighted mean absolute error. The Anomaly Correlation Coefficient (ACC) is one of the most widely used measures in the verification of spatial fields. It is the spatial correlation between the forecast anomaly and the verifying analysis anomaly where the anomalies are computed with respect to a model climate. This is defined by the following equation, where the prime ($\prime$) is defined as climatology:
+
+\begin{equation}
+    ACC = \frac{\sum_{i, j, k} L(j) f^{\prime}_{i, j, k} t^{\prime}_{i, j, k}}{\sqrt{\sum_{i, j, k} L(j) f^{\prime 2}_{i, j, k} \sum_{i, j, k} L(j) t^{\prime 2}_{i, j, k}}}
+\end{equation}

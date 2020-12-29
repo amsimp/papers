@@ -1,0 +1,120 @@
+\documentclass[hidelinks, 12pt]{style} 
+
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr} 
+\pagestyle{fancy}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\graphicspath{{Images/}} 
+\usepackage[backend=biber,style=phys]{biblatex}
+\newtheorem{definition}{Definition}
+\usepackage{tocbibind}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage[toc,title,page]{appendix}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{blindtext}
+\usepackage{url}
+\usepackage{epigraph}
+\usepackage{tikz}
+\usepackage[intoc]{nomencl}
+\usepackage[makeroom]{cancel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{chemfig}
+\usetikzlibrary{quotes,arrows.meta}
+\usetikzlibrary{decorations.markings}
+\makenomenclature
+\addbibresource{references.bib}
+
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{A}{Greek Letters}{}
+  \ifstrequal{#1}{B}{Roman Letters}{}
+]}
+
+% This will add the units
+%----------------------------------------------
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+%----------------------------------------------
+
+\title{Using Machine Learning to Improve Numerical Weather Prediction} 
+
+\author{Conor Casey} 
+\college{Teacher: Ms. Abbott} 
+
+\degree{Chemical, Physical, and Mathematical Sciences} 
+\degreedate{Stand 3300 - BTYSTE 2021}  
+
+\begin{document}
+
+\maketitle
+
+\clearpage\mbox{}\clearpage
+
+\pagenumbering{roman}
+
+\chapter*{
+\centering
+    ``Perhaps some day in the dim future it will be possible to advance the computations faster than the weather advances and at a cost less than the saving to mankind due to the information gained. But that is a dream.”
+\\[5pt]
+\rightline{{\rm --- Lewis Fry Richardson}}
+}
+
+\chapter*{Comments Page}
+\addcontentsline{toc}{chapter}{Comments Page}
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+This report hypothesises that it is possible to train a neural network on an atmospheric reanalysis dataset based on data from the past 10 years, that such a neural network captures crucial weather patterns, and can predict the future evolution of the atmosphere, and that such a machine learning model will ultimately improve numerical weather prediction in comparison to established physics-based models.
+
+To gain an insight into the future feasibility of neural networks in the field of meteorology, a comparison between the performance of the current model against the performance of the previous LSTM model was done. There has been a mean decrease of 50.6 \% in error metrics across the board. This demonstrates the continued improvement and enhancement of the models over the last few months; but, it also demonstrates that the performance of the software can still be improved drastically. 
+
+One of the key factors which led to the development of a machine learning model was the expected decrease in computational resources required to generate a forecast. Once the model has trained, a performance increase of 6.18 times can be expected in comparison against a physics-based model of a similar resolution.
+
+The benchmarks carried out over the course of this project have demonstrated that the model can be generally regarded as useful, particularly on longer periods and in relation to air temperature, in particular, however, the models generally fail to beat well established physics-based models at this time. The model is significantly better at creating air temperature predictions and appears to suffer with geopotential predictions. The root mean squared error and mean squared error demonstrate that the model's air temperature becomes useful after approximately 24 hours of forecast time, with the model ultimately beating the ECMWF IFS T42 model after approximately 96 hours. The picture for geopotential is less rosy, with the root mean squared error and mean squared error demonstrating that the model's geopotential predictions become useful after approximately 96 hours of forecast time. An interesting point to note is that the error values initially are quite high, the error values appear to plateau. This may suggest that the model may be quite useful at generating climate forecasts. Concerning spatial awareness as measured by the anomaly correlation coefficient, both the model's geopotential and air temperature predictions become useful after approximately 120 hours of forecast time. The spatial awareness of the model can be generally regarded as quite poor, it appears that the spatial aspect of a weather forecast was not captured by the model. 
+
+Hence, the hypothesis that was proposed has partially been proven and can be accepted, as such.
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\input{Chapters/Acknowledgements}
+
+\tableofcontents
+
+\listoffigures
+
+\chapter{Introduction}
+\pagenumbering{arabic} 
+\input{Chapters/Introduction}
+
+\chapter{Model Architecture}\label{architecture_chapter}
+\input{Chapters/Model_Architecture}
+
+\chapter{Implementation Details}\label{implementation_chapter}
+\input{Chapters/Implementation_Details.tex}
+
+\chapter{Benchmarking}\label{benchmarking_chapter}
+\input{Chapters/Benchmarking.tex}
+
+\chapter{Results}\label{results_chapter}
+\input{Chapters/Results.tex}
+
+\chapter{Conclusions}\label{conclusion_chapter}
+\input{Chapters/Conclusions.tex}
+
+\newpage
+
+\appendix
+\renewcommand{\thesection}{\Alph{section}.\arabic{section}}
+\setcounter{section}{0}
+\input{Chapters/Appendices.tex}
+
+\printbibliography[heading = bibintoc]
+
+\end{document}
